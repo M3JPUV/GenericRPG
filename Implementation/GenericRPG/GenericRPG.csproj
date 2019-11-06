@@ -129,7 +129,7 @@
     <None Include="Resources\Main_Menu.jpg" />
     <None Include="Resources\level2.png" />
     <None Include="Resources\quitgame.png" />
-    <None Include="Resources\enemy.png" />
+    <None Include="Resources\goomba.png" />
     <None Include="Resources\fightboss.png" />
     <None Include="Resources\gameover.jpg" />
     <None Include="Resources\character-levelup.jpg" />

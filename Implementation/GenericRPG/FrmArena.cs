@@ -130,5 +130,15 @@ namespace GenericRPG {
         lblEnemyDamage.Top = 52;
       }
     }
-  }
+
+        private void lblPlayerDamage_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void picCharacter_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
 }

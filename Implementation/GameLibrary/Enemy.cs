@@ -9,7 +9,6 @@ namespace GameLibrary {
     private const float WEAKEN_MIN = 1.25f;
     private const float WEAKEN_MAX = 1.85f;
 
-    public Bitmap Img { get; private set; }
     public float XpDropped { get; private set; }
 
     private static readonly Random rand = new Random();
@@ -17,8 +16,7 @@ namespace GameLibrary {
       "Wily", "Bob", "Dr. Light", "WallCrusher"
     };
 
-    public Enemy(int level, Bitmap img) : base(RandName(), level) {
-      Img = img;
+    public Enemy(int level) : base(RandName(), level) {
 
       // weaken so player has a chance
       Health /= (float)rand.NextDouble() * (WEAKEN_MAX - WEAKEN_MIN) + WEAKEN_MIN;
