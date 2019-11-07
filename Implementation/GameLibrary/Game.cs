@@ -11,6 +11,8 @@ namespace GameLibrary {
     ON_MAP,
     FIGHTING,
     DEAD,
+    LVL2,
+    LVL1
   }
 
   public class Game {

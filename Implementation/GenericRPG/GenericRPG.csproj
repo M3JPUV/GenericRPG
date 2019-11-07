@@ -135,7 +135,10 @@
     <None Include="Resources\gameover.jpg" />
     <None Include="Resources\character-levelup.jpg" />
     <None Include="Resources\character-levelup-animation.gif" />
-    <Content Include="Resources\level.txt">
+    <Content Include="Resources\lvl2.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\lvl1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

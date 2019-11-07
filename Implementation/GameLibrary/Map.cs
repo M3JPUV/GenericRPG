@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using GameLibrary;
+using System.IO;
 using System.Windows.Forms;
 using System;
 using System.Drawing;
@@ -20,16 +21,18 @@ namespace GameLibrary {
     public int CheckX { get; private set; }
     public int CheckY { get; private set; }
     public string CurrentMap { get; private set; }
-    
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="mapFile"></param>
-    /// <param name="grpMap"></param>
-    /// <param name="LoadImg"></param>
-    /// <returns></returns>
-    public Character LoadMap(string mapFile, GroupBox grpMap, Func<string, Bitmap> LoadImg) {
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mapFile"></param>
+        /// <param name="grpMap"></param>
+        /// <param name="LoadImg"></param>
+        /// <returns></returns>
+        /// 
+    
+        public Character LoadMap(string mapFile, GroupBox grpMap, Func<string, Bitmap> LoadImg) {
       // declare and initialize locals
       int top = TOP_PAD;
       int left = BOUNDARY_PAD;
@@ -121,15 +124,17 @@ namespace GameLibrary {
           };
           break;
 
-        // next level
+        // checkpoint
         case 3:
-          result = new PictureBox() {
-            BackgroundImage = LoadImg("level2"),
-            BackgroundImageLayout = ImageLayout.Stretch,
-            Width = BLOCK_SIZE,
-            Height = BLOCK_SIZE
-          };
-          break;
+           result = new PictureBox()
+            {
+             BackgroundImage = LoadImg("checkpoint"),
+             BackgroundImageLayout = ImageLayout.Stretch,
+             Width = BLOCK_SIZE,
+             Height = BLOCK_SIZE
+           };
+           break;
+          
 
         // boss
         case 4:
@@ -151,10 +156,10 @@ namespace GameLibrary {
           };
           break;
 
-        // checkpoint
+        // next level
         case 6:
           result = new PictureBox() {
-            BackgroundImage = LoadImg("checkpoint"),
+            BackgroundImage = LoadImg("level2"),
             BackgroundImageLayout = ImageLayout.Stretch,
             Width = BLOCK_SIZE,
             Height = BLOCK_SIZE
@@ -170,6 +175,8 @@ namespace GameLibrary {
           layout[pos.row, pos.col] == 1) {
         return false;
       }
+      
+      
       if (pos.row == cY && pos.col == cX) {
         this.CharacterStartCol = cX;
         this.CharacterStartRow = cY;
@@ -199,7 +206,7 @@ namespace GameLibrary {
         }
         string[] file = new string[10];
         int lineNum = 0;
-        using (StreamReader sr = new StreamReader("Resources/level.txt")) {
+        using (StreamReader sr = new StreamReader("Resources/lvl1.txt")) {
           string line = sr.ReadLine();
           while(line != null){
             file[lineNum] = line;
@@ -213,11 +220,15 @@ namespace GameLibrary {
               strBuilder[index] = '0';
               file[i] = strBuilder.ToString();
             }
-            if(file[i].Contains("6")){
-              int index = file[i].IndexOf("6");
+            if(file[i].Contains("3")){
+              int index = file[i].IndexOf("3");
               System.Text.StringBuilder strBuilder = new System.Text.StringBuilder(file[i]);
               strBuilder[index] = '2';
               file[i] = strBuilder.ToString();
+            }
+            if (file[i].Contains("6")){
+              Console.WriteLine(i);
+              Game.GetGame().ChangeState(GameState.LVL2);  
             }
           }
         }
