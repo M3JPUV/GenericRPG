@@ -57,7 +57,11 @@ namespace GenericRPG {
           FrmArena frmArena = new FrmArena(inventory,"boss");
           frmArena.Show();
         }
-      }
+        if (game.State == GameState.MENU)
+        {
+          Close();
+        }
+            }
     }
   }
 }
