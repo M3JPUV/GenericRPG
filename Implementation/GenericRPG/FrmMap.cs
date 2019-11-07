@@ -71,13 +71,15 @@ namespace GenericRPG
                     frmMap.Show();
                 }
                 if (game.State == GameState.LVL1) { // for when in lvl 2, go back to lvl 1 if on square
-                    this.Hide();
+                    
                     Game.GetGame().ChangeState(GameState.ON_MAP);
-                    FrmMap frmMap = new FrmMap(false);
-                    map = new Map();
-                    character = map.LoadMap("Resources/lvl1.txt", grpMap,
+                    
+                    
+                    character = map.LoadMap("Resources/lvl2.txt", grpMap,
                     str => Resources.ResourceManager.GetObject(str) as Bitmap);
-                    frmMap.Show();
+                    Width = grpMap.Width + 25;
+                    Height = grpMap.Height + 50;
+                    character.BackToStart();
                 }
             }
         }

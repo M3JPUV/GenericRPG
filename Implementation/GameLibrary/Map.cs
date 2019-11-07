@@ -11,8 +11,10 @@ namespace GameLibrary {
     private const int TOP_PAD = 10;
     private const int BOUNDARY_PAD = 5;
     private const int BLOCK_SIZE = 50;
-    public double encounterChance;
+    public double encounterChance = 0;
     private Random rand;
+
+    public bool STOP_ENCOUNTER = true;
 
     public int CharacterStartRow { get; private set; }
     public int CharacterStartCol { get; private set; }
@@ -32,7 +34,8 @@ namespace GameLibrary {
         /// <returns></returns>
         /// 
     
-        public Character LoadMap(string mapFile, GroupBox grpMap, Func<string, Bitmap> LoadImg) {
+    public Character LoadMap(string mapFile, GroupBox grpMap, Func<string, Bitmap> LoadImg) {
+      grpMap.Controls.Clear();
       // declare and initialize locals
       int top = TOP_PAD;
       int left = BOUNDARY_PAD;
@@ -88,8 +91,11 @@ namespace GameLibrary {
       grpMap.Top = 5;
       grpMap.Left = 5;
 
-      // initialize for game
-      encounterChance = 0.15;
+            // initialize for game
+        if (STOP_ENCOUNTER == false) {
+            encounterChance = 0.15;
+        }
+
       rand = new Random();
       Game.GetGame().ChangeState(GameState.ON_MAP);
 
@@ -237,13 +243,18 @@ namespace GameLibrary {
           }
         }
       } else {
-        if (rand.NextDouble() < encounterChance) {
-          encounterChance = 0.15;
-          Game.GetGame().ChangeState(GameState.FIGHTING);
-        }
-        else {
-          encounterChance += 0.10;
-        }
+                if (STOP_ENCOUNTER == false)
+                {
+                    if (rand.NextDouble() < encounterChance)
+                    {
+                        encounterChance = 0.15;
+                        Game.GetGame().ChangeState(GameState.FIGHTING);
+                    }
+                    else
+                    {
+                        encounterChance += 0.10;
+                    }
+                }
       }
 
       return true;
