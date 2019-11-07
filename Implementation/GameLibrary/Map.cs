@@ -157,7 +157,7 @@ namespace GameLibrary {
           break;
 
         // next level
-        case 6:
+        case 6:                             // we'll have to make a case for level 1 for when we get to level 2
           result = new PictureBox() {
             BackgroundImage = LoadImg("level2"),
             BackgroundImageLayout = ImageLayout.Stretch,
@@ -226,9 +226,8 @@ namespace GameLibrary {
               strBuilder[index] = '2';
               file[i] = strBuilder.ToString();
             }
-            if (file[i].Contains("6")){
-              Console.WriteLine(i);
-              Game.GetGame().ChangeState(GameState.LVL2);  
+            if (file[i].Contains("6")){     // this currently detects if the player is on the level 2 square
+              Game.GetGame().ChangeState(GameState.LVL2);  // we need to add another for when on level 1 square
             }
           }
         }

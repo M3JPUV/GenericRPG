@@ -23,7 +23,7 @@ namespace GenericRPG
             this.Show();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)  // maybe we can set the GameState to LVL1 after clicking this?
         {
             var newForm = new FrmMap(false);
             newForm.Show();
