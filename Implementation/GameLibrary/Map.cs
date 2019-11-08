@@ -14,7 +14,7 @@ namespace GameLibrary {
     public double encounterChance = 0;
     private Random rand;
 
-    public bool STOP_ENCOUNTER = true;
+    public bool STOP_ENCOUNTER = false;
 
     public int CharacterStartRow { get; private set; }
     public int CharacterStartCol { get; private set; }
@@ -40,6 +40,7 @@ namespace GameLibrary {
       int top = TOP_PAD;
       int left = BOUNDARY_PAD;
       CurrentMap = mapFile;
+      Console.WriteLine(CurrentMap);
       Character character = null;
       List<string> mapLines = new List<string>();
 
@@ -61,7 +62,7 @@ namespace GameLibrary {
         int j = 0;
         foreach (char c in mapLine) {
           int val = c - '0';
-          layout[i, j] = (val == 1 ? 1 : 0);
+          layout[i, j] = (val);
           PictureBox pb = CreateMapCell(val, LoadImg);
           if (pb != null) {
             pb.Top = top;
@@ -73,7 +74,7 @@ namespace GameLibrary {
             CharacterStartCol = j;
             character = new Character(pb, new Position(i, j), this);
           }
-          if (val == 6) {
+          if (val == 3) {
             CheckX = j;
             CheckY = i;
           }
@@ -181,8 +182,17 @@ namespace GameLibrary {
           layout[pos.row, pos.col] == 1) {
         return false;
       }
-      
-      
+      if (layout[pos.row, pos.col] == 6)
+            {
+                Game.GetGame().ChangeState(GameState.LVL2);
+            }
+
+      if (layout[pos.row, pos.col] == 5)
+            {
+                Game.GetGame().ChangeState(GameState.TITLE_SCREEN);
+            }
+
+            Console.WriteLine(pos.col);
       if (pos.row == cY && pos.col == cX) {
         this.CharacterStartCol = cX;
         this.CharacterStartRow = cY;
@@ -212,7 +222,11 @@ namespace GameLibrary {
         }
         string[] file = new string[10];
         int lineNum = 0;
-        using (StreamReader sr = new StreamReader("Resources/lvl1.txt")) {
+        if(this.CurrentMap == "Resources/savedmap.txt")
+        {
+            this.CurrentMap = "Resources/lvl2.txt";
+        }
+        using (StreamReader sr = new StreamReader(this.CurrentMap)) {
           string line = sr.ReadLine();
           while(line != null){
             file[lineNum] = line;
@@ -231,9 +245,6 @@ namespace GameLibrary {
               System.Text.StringBuilder strBuilder = new System.Text.StringBuilder(file[i]);
               strBuilder[index] = '2';
               file[i] = strBuilder.ToString();
-            }
-            if (file[i].Contains("6")){     // this currently detects if the player is on the level 2 square
-              Game.GetGame().ChangeState(GameState.LVL2);  // we need to add another for when on level 1 square
             }
           }
         }

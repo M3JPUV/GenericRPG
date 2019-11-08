@@ -25,7 +25,7 @@ namespace GenericRPG
 
         private void button2_Click(object sender, EventArgs e)  // maybe we can set the GameState to LVL1 after clicking this?
         {
-            var newForm = new FrmMap(false);
+            var newForm = new FrmMap(false, false);
             newForm.Show();
             this.Close();
         }
@@ -42,7 +42,7 @@ namespace GenericRPG
         }
         private void button3_Click(object sender, EventArgs e)
         {
-            var newForm = new FrmMap(true);
+            var newForm = new FrmMap(false, true);
             newForm.Show();
             this.Close();
         }
