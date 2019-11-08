@@ -68,6 +68,7 @@ namespace GameLibrary {
       base.ResetStats();
       XP = 0;
     }
+        //Retrieve the inventory instance associated with this character instance
     public Inventory getInv()
     {
         return this.inventory;

@@ -43,7 +43,7 @@ namespace GameLibrary {
     public void SetCharacter(Character character) {
       Character = character;
     }
-
+    //Set this instance's inventory
     public void SetInventory(Inventory inventory) {
         Inventory = inventory;
     }
