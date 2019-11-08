@@ -187,20 +187,14 @@ namespace GameLibrary {
             {
                 Game.GetGame().ChangeState(GameState.LVL2);
             }
-
-      if (layout[pos.row, pos.col] == 5)
+      else if (layout[pos.row, pos.col] == 5)
             {
                 Game.GetGame().ChangeState(GameState.TITLE_SCREEN);
             }
-
-      if(pos.row == 3 & pos.col == 9){
+      else if (pos.row == 3 & pos.col == 9){
         Game.GetGame().ChangeState(GameState.BOSS);
       }
-      if (pos.row == 5 & pos.col == 9)
-      {
-        Game.GetGame().ChangeState(GameState.MENU);
-        }
-            else if (pos.row == cY && pos.col == cX) {
+      else if (pos.row == cY && pos.col == cX) {
 
         this.CharacterStartCol = cX;
         this.CharacterStartRow = cY;
@@ -271,7 +265,7 @@ namespace GameLibrary {
                     }
                     else
                     {
-                        encounterChance += 0.10;
+                        encounterChance += 0.05;
                     }
                 }
       }

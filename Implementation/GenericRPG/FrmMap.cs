@@ -112,7 +112,7 @@ namespace GenericRPG
                 character.Move(dir);
                 if (game.State == GameState.FIGHTING)
                 {
-                    FrmArena frmArena = new FrmArena(inventory);
+                    FrmArena frmArena = new FrmArena(inventory, "reg");
                     frmArena.Show();
                 }
                 if (game.State == GameState.LVL2) {  // if the player lands on the lvl 2 square, the old map is hidden and the new map is formed
