@@ -37,7 +37,7 @@ namespace GenericRPG
             {
                 if (Directory.Exists("Resources"))
                 {
-                    if (File.Exists("Resources/savedmap.txt") && File.Exists("Resources/savedcharacter.txt"))
+                    if (File.Exists("Resources/savedmap.txt") && File.Exists("Resources/savedcharacter.txt"))   // if loading a saved game
                     {
                         if (game.State == GameState.LVL2)
                         {
@@ -75,8 +75,8 @@ namespace GenericRPG
                 character = map.LoadMap("Resources/lvl2.txt", grpMap,
                    str => Resources.ResourceManager.GetObject(str) as Bitmap);
             }
-            else
-            {
+            else   // default starting map (new game)
+            { 
                 map = new Map();
                 character = map.LoadMap("Resources/lvl1.txt", grpMap,
                    str => Resources.ResourceManager.GetObject(str) as Bitmap);

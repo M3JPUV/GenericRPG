@@ -14,7 +14,7 @@ namespace GameLibrary {
     public double encounterChance = 0;
     private Random rand;
 
-    public bool STOP_ENCOUNTER = false;
+    public bool STOP_ENCOUNTER = false;     // stop encounters
 
     public int CharacterStartRow { get; private set; }
     public int CharacterStartCol { get; private set; }
@@ -164,7 +164,7 @@ namespace GameLibrary {
           break;
 
         // next level
-        case 6:                             // we'll have to make a case for level 1 for when we get to level 2
+        case 6:                             
           result = new PictureBox() {
             BackgroundImage = LoadImg("level2"),
             BackgroundImageLayout = ImageLayout.Stretch,
@@ -185,11 +185,11 @@ namespace GameLibrary {
 
       if (layout[pos.row, pos.col] == 6)
             {
-                Game.GetGame().ChangeState(GameState.LVL2);
+                Game.GetGame().ChangeState(GameState.LVL2);     // checks location for lvl2 space
             }
       else if (layout[pos.row, pos.col] == 5)
             {
-                Game.GetGame().ChangeState(GameState.TITLE_SCREEN);
+                Game.GetGame().ChangeState(GameState.TITLE_SCREEN);     // checks location for quit space
             }
       else if (pos.row == 3 & pos.col == 9){
         Game.GetGame().ChangeState(GameState.BOSS);
@@ -255,20 +255,21 @@ namespace GameLibrary {
             sw.WriteLine(file[i]);
           }
         }
-      } else {
-                if (STOP_ENCOUNTER == false)
+      } 
+        else {
+            if (STOP_ENCOUNTER == false)
+            {
+                if (rand.NextDouble() < encounterChance)
                 {
-                    if (rand.NextDouble() < encounterChance)
-                    {
-                        encounterChance = 0.15;
-                        Game.GetGame().ChangeState(GameState.FIGHTING);
-                    }
-                    else
-                    {
-                        encounterChance += 0.05;
-                    }
+                    encounterChance = 0.15;
+                    Game.GetGame().ChangeState(GameState.FIGHTING);
                 }
-      }
+                else
+                {
+                    encounterChance += 0.05;
+                }
+            }
+        }
 
       return true;
     }
