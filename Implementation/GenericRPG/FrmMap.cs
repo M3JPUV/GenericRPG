@@ -16,6 +16,7 @@ namespace GenericRPG
         public bool inCombat;
         public bool load;
 
+
         public FrmMap(bool InCombat, bool l)
         {
             load = l;
@@ -129,6 +130,11 @@ namespace GenericRPG
                     var newForm = new FrmMainMenu();
                     newForm.Show();
                     this.Close();
+                }
+                if (game.State == GameState.BOSS)
+                {
+                    FrmArena frmArena = new FrmArena(inventory, "boss");
+                    frmArena.Show();
                 }
             }
         }

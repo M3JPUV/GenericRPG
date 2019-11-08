@@ -17,7 +17,7 @@ namespace GameLibrary {
       "Wily", "Bob", "Dr. Light", "WallCrusher"
     };
 
-    public Enemy(int level, Bitmap img) : base(RandName(), level) {
+    public Enemy(int level, Bitmap img, string name) : base(name, level) {
       Img = img;
 
       // weaken so player has a chance
@@ -28,7 +28,6 @@ namespace GameLibrary {
 
       XpDropped = (float)rand.NextDouble() * (MAX_XP_DROP - MIN_XP_DROP) + MIN_XP_DROP;
     }
-
     public static string RandName() {
       return names[rand.Next(names.Count)];
     }

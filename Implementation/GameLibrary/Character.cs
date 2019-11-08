@@ -24,6 +24,7 @@ namespace GameLibrary {
     public PictureBox Pic { get; private set; }
     private Position pos;
     private Map map;
+    private Inventory inventory;
     public float XP { get; private set; }
     public bool ShouldLevelUp { get; private set; }
 
@@ -37,6 +38,7 @@ namespace GameLibrary {
       Pic = pb;
       this.pos = pos;
       this.map = map;
+      this.inventory = new Inventory();
       ShouldLevelUp = false;
     }
 
@@ -66,7 +68,10 @@ namespace GameLibrary {
       base.ResetStats();
       XP = 0;
     }
-
+    public Inventory getInv()
+    {
+        return this.inventory;
+    }
     public void SetStats(string statfile){
       using (FileStream fs = new FileStream(statfile, FileMode.Open)) {
         using (StreamReader sr = new StreamReader(fs)) {

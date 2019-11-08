@@ -182,6 +182,7 @@ namespace GameLibrary {
           layout[pos.row, pos.col] == 1) {
         return false;
       }
+
       if (layout[pos.row, pos.col] == 6)
             {
                 Game.GetGame().ChangeState(GameState.LVL2);
@@ -192,8 +193,15 @@ namespace GameLibrary {
                 Game.GetGame().ChangeState(GameState.TITLE_SCREEN);
             }
 
-            Console.WriteLine(pos.col);
-      if (pos.row == cY && pos.col == cX) {
+      if(pos.row == 3 & pos.col == 9){
+        Game.GetGame().ChangeState(GameState.BOSS);
+      }
+      if (pos.row == 5 & pos.col == 9)
+      {
+        Game.GetGame().ChangeState(GameState.MENU);
+        }
+            else if (pos.row == cY && pos.col == cX) {
+
         this.CharacterStartCol = cX;
         this.CharacterStartRow = cY;
         if(!Directory.Exists("Resources")){
