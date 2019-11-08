@@ -49,6 +49,7 @@ namespace GameLibrary {
       Mana = MaxMana;
       Str = INIT_STR;
       Def = INIT_DEF;
+      //MapStr and MapDef refer to the values of str and def before using a potion. The values they will be reset to upon returning to the map.
       MapStr = Str;
       MapDef = Def;
       Luck = INIT_LUCK;
@@ -81,6 +82,7 @@ namespace GameLibrary {
       Health = MaxHealth;
       Mana = MaxMana;
     }
+        //Sets str and def back to their pre-potion values
     public void ResetStrDef()
     {
             Str = MapStr;
@@ -93,7 +95,7 @@ namespace GameLibrary {
       float randMult = (float)(rand.NextDouble() * (randMax - randMin)) + randMin;
       receiver.Health -= (baseDamage * randMult);
     }
-
+    //Increase each of the below stats by a specific increment
     public void increaseHealth(int inc)
     {
             this.Health += inc;

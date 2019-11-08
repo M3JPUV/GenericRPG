@@ -68,6 +68,7 @@ namespace GenericRPG {
 
       lblPlayerHealth.Text = Math.Round(character.Health).ToString();
       lblEnemyHealth.Text = Math.Round(enemy.Health).ToString();
+            //Update the potion counter on screen with the other stats
             if (inventory.PotionCount() == 0)
             {
                 PotionNum.Text = "You have " + inventory.PotionCount() + " potions. \nBeat enemies to get more!";
@@ -86,9 +87,11 @@ namespace GenericRPG {
       lblEnemyDamage.Visible = true;
       tmrEnemyDamage.Enabled = true;
       if (enemy.Health <= 0) {
+        //Generate a number 0-9 then if that number is > 4 give the player a potion
         int potion = rand.Next(10);
         if (potion > 4)
         {
+            //Set the potioncount higher in the inventory
             inventory.getPotion();
             label10.Text = "You got a potion!!!";
             label10.Visible = true;
@@ -100,6 +103,7 @@ namespace GenericRPG {
         Refresh();
         Thread.Sleep(1200);
         EndFight();
+        //Once the fight ends (but before levelling up) reset the characters strength and def stats (in case postions were used.)
         character.ResetStrDef();
         if (character.ShouldLevelUp) {
           FrmLevelUp frmLevelUp = new FrmLevelUp();
