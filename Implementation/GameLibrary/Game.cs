@@ -11,9 +11,12 @@ namespace GameLibrary {
     ON_MAP,
     FIGHTING,
     DEAD,
+    LVL2,
+    LVL1,
     BOSS,
     WIN,
-  }
+    MENU,
+    }
 
   public class Game {
     private static Game game;

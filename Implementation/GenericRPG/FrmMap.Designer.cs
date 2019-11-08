@@ -55,9 +55,9 @@ namespace GenericRPG {
 
         protected override void OnClosed(EventArgs e)
         {
-            var newForm = new FrmMainMenu();
+            /*var newForm = new FrmMainMenu();
             newForm.ControlBox = false;
-            newForm.Show();
+            newForm.Show();*/
             base.OnClosed(e);
         }
 

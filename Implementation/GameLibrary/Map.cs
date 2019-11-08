@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using GameLibrary;
+using System.IO;
 using System.Windows.Forms;
 using System;
 using System.Drawing;
@@ -10,8 +11,10 @@ namespace GameLibrary {
     private const int TOP_PAD = 10;
     private const int BOUNDARY_PAD = 5;
     private const int BLOCK_SIZE = 50;
-    public double encounterChance;
+    public double encounterChance = 0;
     private Random rand;
+
+    public bool STOP_ENCOUNTER = false;     // stop encounters
 
     public int CharacterStartRow { get; private set; }
     public int CharacterStartCol { get; private set; }
@@ -20,20 +23,24 @@ namespace GameLibrary {
     public int CheckX { get; private set; }
     public int CheckY { get; private set; }
     public string CurrentMap { get; private set; }
-    
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="mapFile"></param>
-    /// <param name="grpMap"></param>
-    /// <param name="LoadImg"></param>
-    /// <returns></returns>
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mapFile"></param>
+        /// <param name="grpMap"></param>
+        /// <param name="LoadImg"></param>
+        /// <returns></returns>
+        /// 
+    
     public Character LoadMap(string mapFile, GroupBox grpMap, Func<string, Bitmap> LoadImg) {
+      grpMap.Controls.Clear();
       // declare and initialize locals
       int top = TOP_PAD;
       int left = BOUNDARY_PAD;
       CurrentMap = mapFile;
+      Console.WriteLine(CurrentMap);
       Character character = null;
       List<string> mapLines = new List<string>();
 
@@ -55,7 +62,7 @@ namespace GameLibrary {
         int j = 0;
         foreach (char c in mapLine) {
           int val = c - '0';
-          layout[i, j] = (val == 1 ? 1 : 0);
+          layout[i, j] = (val);
           PictureBox pb = CreateMapCell(val, LoadImg);
           if (pb != null) {
             pb.Top = top;
@@ -67,7 +74,7 @@ namespace GameLibrary {
             CharacterStartCol = j;
             character = new Character(pb, new Position(i, j), this);
           }
-          if (val == 6) {
+          if (val == 3) {
             CheckX = j;
             CheckY = i;
           }
@@ -85,8 +92,11 @@ namespace GameLibrary {
       grpMap.Top = 5;
       grpMap.Left = 5;
 
-      // initialize for game
-      encounterChance = 0.15;
+            // initialize for game
+        if (STOP_ENCOUNTER == false) {
+            encounterChance = 0.15;
+        }
+
       rand = new Random();
       Game.GetGame().ChangeState(GameState.ON_MAP);
 
@@ -121,15 +131,17 @@ namespace GameLibrary {
           };
           break;
 
-        // next level
+        // checkpoint
         case 3:
-          result = new PictureBox() {
-            BackgroundImage = LoadImg("level2"),
-            BackgroundImageLayout = ImageLayout.Stretch,
-            Width = BLOCK_SIZE,
-            Height = BLOCK_SIZE
-          };
-          break;
+           result = new PictureBox()
+            {
+             BackgroundImage = LoadImg("checkpoint"),
+             BackgroundImageLayout = ImageLayout.Stretch,
+             Width = BLOCK_SIZE,
+             Height = BLOCK_SIZE
+           };
+           break;
+          
 
         // boss
         case 4:
@@ -151,10 +163,10 @@ namespace GameLibrary {
           };
           break;
 
-        // checkpoint
-        case 6:
+        // next level
+        case 6:                             
           result = new PictureBox() {
-            BackgroundImage = LoadImg("checkpoint"),
+            BackgroundImage = LoadImg("level2"),
             BackgroundImageLayout = ImageLayout.Stretch,
             Width = BLOCK_SIZE,
             Height = BLOCK_SIZE
@@ -170,10 +182,21 @@ namespace GameLibrary {
           layout[pos.row, pos.col] == 1) {
         return false;
       }
-      if(pos.row == 3 & pos.col == 9){
+
+      if (layout[pos.row, pos.col] == 6)
+            {
+                Game.GetGame().ChangeState(GameState.LVL2);     // checks location for lvl2 space
+            }
+      else if (layout[pos.row, pos.col] == 5)
+            {
+                Game.GetGame().ChangeState(GameState.TITLE_SCREEN);     // checks location for quit space
+            }
+      // check if on boss space and set gamestate to boss if true
+      else if (pos.row == 3 & pos.col == 9){
         Game.GetGame().ChangeState(GameState.BOSS);
       }
       else if (pos.row == cY && pos.col == cX) {
+
         this.CharacterStartCol = cX;
         this.CharacterStartRow = cY;
         if(!Directory.Exists("Resources")){
@@ -202,7 +225,11 @@ namespace GameLibrary {
         }
         string[] file = new string[10];
         int lineNum = 0;
-        using (StreamReader sr = new StreamReader("Resources/level.txt")) {
+        if(this.CurrentMap == "Resources/savedmap.txt")
+        {
+            this.CurrentMap = "Resources/lvl2.txt";
+        }
+        using (StreamReader sr = new StreamReader(this.CurrentMap)) {
           string line = sr.ReadLine();
           while(line != null){
             file[lineNum] = line;
@@ -216,8 +243,8 @@ namespace GameLibrary {
               strBuilder[index] = '0';
               file[i] = strBuilder.ToString();
             }
-            if(file[i].Contains("6")){
-              int index = file[i].IndexOf("6");
+            if(file[i].Contains("3")){
+              int index = file[i].IndexOf("3");
               System.Text.StringBuilder strBuilder = new System.Text.StringBuilder(file[i]);
               strBuilder[index] = '2';
               file[i] = strBuilder.ToString();
@@ -229,15 +256,21 @@ namespace GameLibrary {
             sw.WriteLine(file[i]);
           }
         }
-      } else {
-        if (rand.NextDouble() < encounterChance) {
-          encounterChance = 0.15;
-          Game.GetGame().ChangeState(GameState.FIGHTING);
-        }
+      } 
         else {
-          encounterChance += 0.10;
+            if (STOP_ENCOUNTER == false)
+            {
+                if (rand.NextDouble() < encounterChance)
+                {
+                    encounterChance = 0.15;
+                    Game.GetGame().ChangeState(GameState.FIGHTING);
+                }
+                else
+                {
+                    encounterChance += 0.05;
+                }
+            }
         }
-      }
 
       return true;
     }
