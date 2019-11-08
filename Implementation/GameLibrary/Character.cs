@@ -73,6 +73,7 @@ namespace GameLibrary {
     {
         return this.inventory;
     }
+    // Read character stats from saved file and set current instance values
     public void SetStats(string statfile){
       using (FileStream fs = new FileStream(statfile, FileMode.Open)) {
         using (StreamReader sr = new StreamReader(fs)) {

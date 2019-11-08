@@ -196,12 +196,15 @@ namespace GameLibrary {
         Game.GetGame().ChangeState(GameState.BOSS);
       }
       else if (pos.row == cY && pos.col == cX) {
-
+        // Set character start position to checkpoint position
         this.CharacterStartCol = cX;
         this.CharacterStartRow = cY;
+        // Check if necessary files and directories already exist
         if(!Directory.Exists("Resources")){
+          // Create directory if doesn't exist
           Directory.CreateDirectory("Resources");
         } else {
+          // Check if save files already exist, delete if they do
           if(File.Exists("Resources/savedmap.txt")){
             File.Delete("Resources/savedmap.txt");
           }
@@ -209,6 +212,7 @@ namespace GameLibrary {
             File.Delete("Resources/savedcharacter.txt");
           }
         }
+        // Write character stats to saved character file
         using (StreamWriter writer = new StreamWriter("Resources/savedcharacter.txt")){
             writer.WriteLine(character.Health);
             writer.WriteLine(character.MaxHealth);
@@ -223,26 +227,33 @@ namespace GameLibrary {
             writer.WriteLine(character.Level);
             writer.WriteLine(character.Name);
         }
+        // Some storage variables
         string[] file = new string[10];
         int lineNum = 0;
+        // Edge case handling for changing levels if checkpoint already reached
         if(this.CurrentMap == "Resources/savedmap.txt")
         {
             this.CurrentMap = "Resources/lvl2.txt";
         }
+        // Read the current map
         using (StreamReader sr = new StreamReader(this.CurrentMap)) {
           string line = sr.ReadLine();
+          // Write current map to array of strings
           while(line != null){
             file[lineNum] = line;
             line = sr.ReadLine();
             lineNum++;
           }
+          // Go through each string in array
           for(int i=0; i<lineNum; i++){
+            // Set character start position on the level to empty space
             if(file[i].Contains("2")){
               int index = file[i].IndexOf("2");
               System.Text.StringBuilder strBuilder = new System.Text.StringBuilder(file[i]);
               strBuilder[index] = '0';
               file[i] = strBuilder.ToString();
             }
+            // Set checkpoint position on the level to character start position
             if(file[i].Contains("3")){
               int index = file[i].IndexOf("3");
               System.Text.StringBuilder strBuilder = new System.Text.StringBuilder(file[i]);
@@ -251,27 +262,28 @@ namespace GameLibrary {
             }
           }
         }
+        // Write modified level file to save file
         using (StreamWriter sw = new StreamWriter("Resources/savedmap.txt")) {
           for(int i=0; i<lineNum; i++){
             sw.WriteLine(file[i]);
           }
         }
-      } 
-        else {
-            if (STOP_ENCOUNTER == false)
-            {
-                if (rand.NextDouble() < encounterChance)
-                {
-                    encounterChance = 0.15;
-                    Game.GetGame().ChangeState(GameState.FIGHTING);
-                }
-                else
-                {
-                    encounterChance += 0.05;
-                }
-            }
+      } else {
+        // Do combat checks, as on a empty tile
+        if (STOP_ENCOUNTER == false)
+        {
+          if (rand.NextDouble() < encounterChance)
+          {
+             encounterChance = 0.15;
+             Game.GetGame().ChangeState(GameState.FIGHTING);
+          }
+          else
+          {
+            encounterChance += 0.05;
+          }
         }
-
+      }
+      // Move is valid
       return true;
     }
 

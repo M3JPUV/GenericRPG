@@ -39,38 +39,38 @@ namespace GenericRPG
                 {
                     if (File.Exists("Resources/savedmap.txt") && File.Exists("Resources/savedcharacter.txt"))   // if loading a saved game
                     {
-                        if (game.State == GameState.LVL2)
+                        if (game.State == GameState.LVL2) // load level 2
                         {
                             character = map.LoadMap("Resources/lvl2.txt", grpMap,
                                str => Resources.ResourceManager.GetObject(str) as Bitmap);
                         }
-                        else if (game.State == GameState.LVL1)
+                        else if (game.State == GameState.LVL1) // load level 1
                         {
                             character = map.LoadMap("Resources/lvl1.txt", grpMap,
                                str => Resources.ResourceManager.GetObject(str) as Bitmap);
                         }
-                        else
+                        else // from main menu, so load saved level
                         {
                             character = map.LoadMap("Resources/savedmap.txt", grpMap,
                               str => Resources.ResourceManager.GetObject(str) as Bitmap
                             );
                         }
 
-                        character.SetStats("Resources/savedcharacter.txt");
+                        character.SetStats("Resources/savedcharacter.txt"); // set character stats from saved file
                     }
-                    else if (game.State == GameState.LVL2)
+                    else if (game.State == GameState.LVL2) // changed to level 2
                     {
                         character = map.LoadMap("Resources/lvl2.txt", grpMap,
                            str => Resources.ResourceManager.GetObject(str) as Bitmap);
                     }
-                    else
+                    else // change to level 1
                     {
                         character = map.LoadMap("Resources/lvl1.txt", grpMap,
                            str => Resources.ResourceManager.GetObject(str) as Bitmap);
                     }
                 }
             }
-            else if (game.State == GameState.LVL2)
+            else if (game.State == GameState.LVL2) // change to level 2
             {
                 character = map.LoadMap("Resources/lvl2.txt", grpMap,
                    str => Resources.ResourceManager.GetObject(str) as Bitmap);
