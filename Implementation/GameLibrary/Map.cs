@@ -191,7 +191,7 @@ namespace GameLibrary {
                 Game.GetGame().ChangeState(GameState.TITLE_SCREEN);     // checks location for quit space
             }
       // check if on boss space and set gamestate to boss if true
-      else if (pos.row == 3 & pos.col == 9){
+      else if (layout[pos.row, pos.col] == 4){
         Game.GetGame().ChangeState(GameState.BOSS);
       }
       else if (pos.row == cY && pos.col == cX) {
