@@ -40,7 +40,6 @@ namespace GameLibrary {
       int top = TOP_PAD;
       int left = BOUNDARY_PAD;
       CurrentMap = mapFile;
-      Console.WriteLine(CurrentMap);
       Character character = null;
       List<string> mapLines = new List<string>();
 
