@@ -17,6 +17,7 @@ namespace GameLibrary {
       "Wily", "Bob", "Dr. Light", "WallCrusher"
     };
 
+    // Changed constructor to take in name 
     public Enemy(int level, Bitmap img, string name) : base(name, level) {
       Img = img;
 

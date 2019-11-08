@@ -25,6 +25,7 @@ namespace GenericRPG {
     private void EndFight() {
       Game.GetGame().ChangeState(GameState.ON_MAP);
       Close();
+      // if enemy is boss potentially move to win state (possible future improvement)
       if (enemytype == "boss")
             {
                 Game.GetGame().ChangeState(GameState.WIN);
@@ -35,6 +36,7 @@ namespace GenericRPG {
 
       game = Game.GetGame();
       character = game.Character;
+      // check for what type of enemy to load either regular or boss
       if (enemytype == "reg"){
          enemy = new Enemy(rand.Next(character.Level + 1), Resources.enemy, Enemy.RandName());
        }
@@ -131,6 +133,7 @@ namespace GenericRPG {
       }
     }
     private void btnRun_Click(object sender, EventArgs e) {
+            // if not boss allow normal run
             if (enemytype != "boss")
             {
                 if (rand.NextDouble() < 0.25)
@@ -162,12 +165,13 @@ namespace GenericRPG {
                     }
                 }
             }
+            // if boss fight then do not allow run
             else
             {
                 lblEndFightMessage.Text = "You Can't Run From This!";
                 lblEndFightMessage.Visible = true;
                 Refresh();
-                Thread.Sleep(1000);
+                Thread.Sleep(1200);
                 lblEndFightMessage.Visible = false;
                 Refresh();
             }
